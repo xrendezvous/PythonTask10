@@ -335,7 +335,7 @@ class TestHomeWorking10(unittest.TestCase):
         """
         5. Перевірка виконання методу delete класу AddressBook з записом, що не існує успішна
         """
-        msg = """3. Провалена перевірка. Якщо запису не існує то метод delete класу AddressBook повинен повернути None!"""
+        msg = """3. Провалена перевірка. Метод delete класу AddressBook не видалив запис!"""
         if hasattr(main, "AddressBook") and isinstance(self.book, main.AddressBook):
             self.book.add_record(self.john_record)
             self.book.delete("Jane")
@@ -402,21 +402,16 @@ class TestHomeWorking10_1(unittest.TestCase):
 
     def test_003(self):
         """
-        3. Перевірка виконання методу find_phone класу Record для не існуючого номеру. Викинуто виключення ValueError
+        3. Перевірка виконання методу find_phone класу Record для не існуючого номеру. Повернуто значення None
         """
-        msg = """3. Провалена перевірка. Якщо номеру телефона не існує то метод find_phone класу Record повинен викинути виключення ValueError!"""
+        msg = """3. Провалена перевірка. Якщо номеру телефона не існує то метод find_phone класу Record повинен повернути None!"""
         if (
             hasattr(main, "Record")
             and isinstance(self.record, main.Record)
             and ("find_phone" in dir(main.Record))
         ):
-            try:
-                phone = self.record.find_phone("1111111111")
-                assert False, msg
-            except ValueError:
-                pass
-            except Exception:
-                assert False, msg
+            phone = self.record.find_phone("1111111111")
+            assert phone is None, msg
         else:
             raise AssertionError(msg)
 
@@ -472,13 +467,8 @@ class TestHomeWorking10_1(unittest.TestCase):
             and ("find_phone" in dir(main.Record))
         ):
             self.record.remove_phone("1234567890")
-            try:
-                phone = self.record.find_phone("1234567890")
-                assert False, msg
-            except ValueError:
-                pass
-            except Exception:
-                assert False, msg
+            phone = self.record.find_phone("1234567890")
+            assert phone is None, msg
         else:
             raise AssertionError(msg)
 
