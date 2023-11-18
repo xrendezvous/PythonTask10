@@ -22,11 +22,15 @@ class Name(Field):
 
 class Phone(Field):
     def validate(self, value):
-        if not value.isdigit() or len(value) < 10:
+        if not value.isdigit() or len(value) != 10:
             raise ValueError('Phone number should be a 10-digit number')
 
     def __str__(self):
         return f"Phone: {self.value}"
+
+    def __init__(self, value):
+        self.validate(value)
+        super().__init__(value)
 
 class Record:
     def __init__(self, name):
