@@ -19,6 +19,10 @@ class Name(Field):
     def __str__(self):
         return f"Name: {self.value}"
 
+    def __init__(self, value):
+        self.validate(value)
+        super().__init__(value)
+
 
 class Phone(Field):
     def validate(self, value):
@@ -32,13 +36,18 @@ class Phone(Field):
         self.validate(value)
         super().__init__(value)
 
+
+
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
+        result = f"{self.name}"
+        if self.phones:
+            result += f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
+        return result
 
     def add_phone(self, phone_number):
         phone = Phone(phone_number)
